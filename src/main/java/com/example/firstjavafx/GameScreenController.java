@@ -385,13 +385,16 @@ private boolean isFlipped= false;
         diamondView.setFitWidth(25); // Set your desired width
         diamondView.setFitHeight(25); // Set your desired height
 
-        //select rand x and set diampond x to between randomly between two pillars
+        //select rand x and set diamond x to between randomly between two pillars
         isDiamond = random.nextInt(10);
         if(isDiamond>3){
             rootAnchorPane.getChildren().add(diamondView);
             System.out.println("New Diamond");
-            double rand = 100*random.nextDouble();
-            diamondView.setX(x+wt+randt);
+            double abc =random.nextDouble();
+            double rand = (x+offset-x-wt-25) * abc;
+            System.out.println("randt : "+randt);
+            System.out.println("abc : "+abc);
+            diamondView.setX(x+wt+rand);
             XofDiamond= x+wt+rand;
             diamondView.setY(y+20);
         }
