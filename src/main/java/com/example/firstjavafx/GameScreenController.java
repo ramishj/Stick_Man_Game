@@ -37,6 +37,7 @@ import java.util.ResourceBundle;
 public class GameScreenController extends Application{
     //+++++++++++++++++++++++++++++++++++++++
     private double XofDiamond;
+    private String test;
     private static final int NUM_FRAMES = 6; // Number of frames in the animation
     private static final int FRAME_DURATION = 80; // Duration for each frame in milliseconds
     private static final double STEP_SIZE = 10; // Pixel movement per frame
