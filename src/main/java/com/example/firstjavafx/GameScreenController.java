@@ -36,10 +36,11 @@ import java.util.ResourceBundle;
 
 public class GameScreenController extends Application{
     //+++++++++++++++++++++++++++++++++++++++
+    private double XofDiamond;
     private static final int NUM_FRAMES = 6; // Number of frames in the animation
     private static final int FRAME_DURATION = 80; // Duration for each frame in milliseconds
     private static final double STEP_SIZE = 10; // Pixel movement per frame
-
+    private int DiamondsNo = 0;
     private ImageView imageView;
     private int currentFrame = 0; // Initialize currentFrame to 0
     private double positionX = -100; // Initialize the starting X position
@@ -107,6 +108,7 @@ public class GameScreenController extends Application{
     private void updateGame() {
         // Add code to update the game here
         Score.setText(String.format("%d", cnt*3));
+
     }
 
 
@@ -124,10 +126,11 @@ public class GameScreenController extends Application{
 
 
     }
-
+private boolean isFlipped= false;
     private void onKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.DOWN && !isJumping && isMoving) {
-
+        if (event.getCode() == KeyCode.DOWN && !isJumping && isMoving ) {
+            System.out.println("down pressed");
+            isFlipped = !isFlipped;
             ScaleTransition flip = new ScaleTransition(Duration.millis(100), imageView);
             flip.setToY(flip_i); // Flips vertically
             flip_i=-flip_i;
@@ -162,9 +165,8 @@ public class GameScreenController extends Application{
 
         if (event.getCode() == KeyCode.SPACE) {
             isSpaceBarPressed = true;
-            System.out.println("before " + stick_grown_once);
             if(!stick_grown_once){
-                System.out.println("hifdf");
+
                 growStick();
             }
         }
@@ -203,9 +205,7 @@ public class GameScreenController extends Application{
             timeline.setOnFinished(event -> {
                 double distance = 0;
                 if(stickR.getX()+stickR.getHeight()>pillar2.getX() && stickR.getX()+stickR.getHeight()<pillar2.getX()+pillar2.getWidth()){
-                    System.out.println("in between");
-                    System.out.println("player x: "+ imageView.getX());
-                    System.out.println("pillar2 x: "+ imageView.getX());
+
                     distance = pillar2.getX() + pillar2.getWidth() - imageView.getX()-25 -imageView.getTranslateX();
                 }
                 else {
@@ -257,6 +257,7 @@ public class GameScreenController extends Application{
                     imageView.setTranslateX(positionX);
 //                    imageView.setTranslateX(-100);
                     positionX += STEP_SIZE;
+
                 }
         ));
         timeline.setCycleCount((int)(distance/STEP_SIZE));
@@ -337,12 +338,16 @@ public class GameScreenController extends Application{
         parallelTransition.play();
 
         parallelTransition.setOnFinished(event -> {
-
+            if(diamondView!=null){
+                rootAnchorPane.getChildren().remove(diamondView);
+                diamondView = null;
+            }
             createNewPillar();
             updateGame();
         });
     }
-
+    ImageView diamondView;
+    int isDiamond;
 
     private void createNewPillar(){
         double ht = pillar2.getHeight();
@@ -371,14 +376,30 @@ public class GameScreenController extends Application{
         pillar1.setWidth(wt);
         pillar2.setFill(color);
 
+        double randt = 100*random.nextDouble();
+        double offset = x + 30 + randt;//ensure ths is withing bounds later
 
-        double offset = x + 15 + 100*random.nextDouble();//ensure ths is withing bounds later
 //        System.out.println(offset);
+        diamondView = new ImageView(getClass().getResource("diamond.png").toExternalForm());
+        diamondView.setFitWidth(25); // Set your desired width
+        diamondView.setFitHeight(25); // Set your desired height
+
+        //select rand x and set diampond x to between randomly between two pillars
+        isDiamond = random.nextInt(2);
+        if(isDiamond==1){
+            rootAnchorPane.getChildren().add(diamondView);
+            System.out.println("New Diamond");
+            double rand = 100*random.nextDouble();
+            diamondView.setX(x+wt+randt);
+            XofDiamond= x+wt+rand;
+            diamondView.setY(y+20);
+        }
+
+
         pillar2.setX(x+offset);
         pillar2.setY(y);
         pillar2.setHeight(0);
         double width = 25 + 65*random.nextDouble();
-
 
         pillar2.setWidth(width);
         // Use Timeline to animate the height of the pillar
