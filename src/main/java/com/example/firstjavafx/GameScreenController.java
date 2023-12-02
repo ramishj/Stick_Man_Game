@@ -267,12 +267,12 @@ public class GameScreenController extends Application{
             imageView.setImage(frames[0]);
 //            System.out.println("after transition player x : "+player.getX() + " " + player.getLayoutX() + " " + player.getTranslateX());
 
-
+            System.out.println("after transition player x : "+imageView.getX() + " " + imageView.getLayoutX() + " " + imageView.getTranslateX());
             if(lost){
                 System.out.println("GAME OVER!");
                 System.out.println("your score : " + cnt*3);
 
-                double pivotX = stickR.getX() + (stickR.getWidth()); // Calculate the center X
+                double pivotX = stickR.getX() + (stickR.getWidth()); // Calculate the center X HEHE
                 double pivotY = stickR.getY() + stickR.getHeight(); // Set pivot at the bottom of the stick
 //            System.out.println(stickR.getY());
                 Rotate rotate = new Rotate(90, pivotX, pivotY); // Create a Rotate transform
