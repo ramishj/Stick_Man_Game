@@ -11,6 +11,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -21,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -48,6 +50,8 @@ public class GameScreenController extends Application{
     @FXML
     Rectangle pillar1, pillar2;
     Stick stick;
+    @FXML
+    private Text Score;
     private boolean stick_grown_once = false;
     private boolean isMoving = false;
     Scene scene;
@@ -102,6 +106,7 @@ public class GameScreenController extends Application{
     // Method to update the game state
     private void updateGame() {
         // Add code to update the game here
+        Score.setText(String.format("%d", cnt*3));
     }
 
 
@@ -166,6 +171,7 @@ public class GameScreenController extends Application{
     }
 
     private void onKeyReleased(KeyEvent cevent) {
+
         if (!stick_grown_once && cevent.getCode() == KeyCode.SPACE) {
             isSpaceBarPressed = false;
             stick_grown_once = true;
@@ -261,9 +267,11 @@ public class GameScreenController extends Application{
             imageView.setImage(frames[0]);
 //            System.out.println("after transition player x : "+player.getX() + " " + player.getLayoutX() + " " + player.getTranslateX());
 
+
             if(lost){
                 System.out.println("GAME OVER!");
                 System.out.println("your score : " + cnt*3);
+
                 double pivotX = stickR.getX() + (stickR.getWidth()); // Calculate the center X
                 double pivotY = stickR.getY() + stickR.getHeight(); // Set pivot at the bottom of the stick
 //            System.out.println(stickR.getY());
@@ -297,6 +305,7 @@ public class GameScreenController extends Application{
 
             if(!lost){
                 shiftAllElementsSmoothly(pillar2.getX() - pillar1.getX(), 0.4);
+
             }
 
         });
@@ -330,6 +339,7 @@ public class GameScreenController extends Application{
         parallelTransition.setOnFinished(event -> {
 
             createNewPillar();
+            updateGame();
         });
     }
 
@@ -423,6 +433,7 @@ public class GameScreenController extends Application{
 
 //        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GameScreen.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("GameScreen.fxml"));
+
         scene = new Scene(root, 1000, 1000.0);
         stickR = (Rectangle) scene.lookup("#stickR");
 //        player = (ImageView) scene.lookup(("#player"));
@@ -444,7 +455,7 @@ public class GameScreenController extends Application{
         scene.setOnKeyReleased(this::onKeyReleased);
 
 //        System.out.println("hdflk");
-
+            Score = (Text) scene.lookup("#Score");
 
         stage.setTitle("Game Screen!");
         stage.setMinWidth(467); // Set minimum width
@@ -457,6 +468,8 @@ public class GameScreenController extends Application{
 //        stickR.setY(stick.getY());
 //        stickR.setHeight(stick.getHeight());
 //        stickR.setWidth((stick.getWidth()));
+
+
         stage.show();
     }
 

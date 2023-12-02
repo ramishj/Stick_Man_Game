@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="467.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.firstjavafx.GameScreenController">
    <children>
@@ -15,5 +20,40 @@
       <Rectangle fx:id="pillar1" arcHeight="5.0" arcWidth="5.0" fill="#ffbc1f" height="172.0" stroke="#e4bf06" strokeType="INSIDE" width="71.0" x="94.0" y="417.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="414.0" />
       <Rectangle fx:id="pillar2" arcHeight="5.0" arcWidth="5.0" fill="#ffbc1f" height="172.0" stroke="#e4bf06" strokeType="INSIDE" width="71.0" x="300.0" y="414.0" />
       <Rectangle fx:id="stickR" arcHeight="5.0" arcWidth="5.0" stroke="BLACK" strokeType="INSIDE" width="2.0" x="155.0" y="413.0" />
+      <VBox prefHeight="85.0" prefWidth="202.0">
+         <children>
+            <HBox prefHeight="40.0" prefWidth="181.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Score:" wrappingWidth="76.7890625">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Score" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="119.21630859375">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="40.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Diamonds:" wrappingWidth="125.7890625">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Diamonds" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="119.21630859375">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
