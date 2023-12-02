@@ -267,7 +267,7 @@ public class GameScreenController extends Application{
             imageView.setImage(frames[0]);
 //            System.out.println("after transition player x : "+player.getX() + " " + player.getLayoutX() + " " + player.getTranslateX());
 
-            System.out.println("after transition player x : "+imageView.getX() + " " + imageView.getLayoutX() + " " + imageView.getTranslateX());
+
             if(lost){
                 System.out.println("GAME OVER!");
                 System.out.println("your score : " + cnt*3);
