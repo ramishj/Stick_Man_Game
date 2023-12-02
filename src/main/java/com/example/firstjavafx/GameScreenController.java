@@ -386,8 +386,8 @@ private boolean isFlipped= false;
         diamondView.setFitHeight(25); // Set your desired height
 
         //select rand x and set diampond x to between randomly between two pillars
-        isDiamond = random.nextInt(2);
-        if(isDiamond==1){
+        isDiamond = random.nextInt(10);
+        if(isDiamond>3){
             rootAnchorPane.getChildren().add(diamondView);
             System.out.println("New Diamond");
             double rand = 100*random.nextDouble();
