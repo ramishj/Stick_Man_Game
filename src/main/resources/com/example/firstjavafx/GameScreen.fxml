@@ -12,7 +12,7 @@
 
 <AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="467.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.firstjavafx.GameScreenController">
    <children>
-      <ImageView fitHeight="592.0" fitWidth="473.0" layoutX="-2.0" layoutY="-3.0" pickOnBounds="true">
+      <ImageView fitHeight="592.0" fitWidth="473.0" layoutX="-2.0" layoutY="-3.0" opacity="0.89" pickOnBounds="true">
          <image>
             <Image url="@20008380_6221846.jpg" />
          </image>
@@ -20,16 +20,19 @@
       <Rectangle fx:id="pillar1" arcHeight="5.0" arcWidth="5.0" fill="#ffbc1f" height="172.0" stroke="#e4bf06" strokeType="INSIDE" width="71.0" x="94.0" y="417.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="414.0" />
       <Rectangle fx:id="pillar2" arcHeight="5.0" arcWidth="5.0" fill="#ffbc1f" height="172.0" stroke="#e4bf06" strokeType="INSIDE" width="71.0" x="300.0" y="414.0" />
       <Rectangle fx:id="stickR" arcHeight="5.0" arcWidth="5.0" stroke="BLACK" strokeType="INSIDE" width="2.0" x="155.0" y="413.0" />
-      <VBox prefHeight="85.0" prefWidth="202.0">
+      <VBox prefHeight="87.0" prefWidth="165.0">
          <children>
-            <HBox prefHeight="40.0" prefWidth="181.0">
+            <HBox prefHeight="44.0" prefWidth="154.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Score:" wrappingWidth="76.7890625">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Score:" wrappingWidth="100.7890625">
                      <font>
-                        <Font size="28.0" />
+                        <Font name="Arial Black" size="28.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
                   </Text>
-                  <Text fx:id="Score" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="119.21630859375">
+                  <Text fx:id="Score" strokeType="OUTSIDE" strokeWidth="0.0" text="0" translateX="-8.0" translateY="6.0" wrappingWidth="33.21630859375">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -41,15 +44,21 @@
             </HBox>
             <HBox prefHeight="40.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Diamonds:" wrappingWidth="125.7890625">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Diamonds:" wrappingWidth="178.7890625">
                      <font>
-                        <Font size="28.0" />
+                        <Font name="Arial Black" size="28.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
                   </Text>
-                  <Text fx:id="Diamonds" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="119.21630859375">
+                  <Text fx:id="Diamonds" strokeType="OUTSIDE" strokeWidth="0.0" text="0" translateX="-15.0" translateY="5.0" wrappingWidth="34.21630859375">
                      <font>
                         <Font size="28.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
                   </Text>
                </children>
             </HBox>

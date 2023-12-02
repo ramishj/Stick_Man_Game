@@ -347,7 +347,12 @@ public class GameScreenController extends Application{
     private void createNewPillar(){
         double ht = pillar2.getHeight();
         double wt = pillar2.getWidth();
-        Paint color = pillar2.getFill();
+        Paint[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.PURPLE, Color.ORANGE, Color.PINK};
+        Random random = new Random();
+        //Get a random No. between 0 and 6
+        int index = random.nextInt(7);
+        Paint old = pillar2.getFill();
+        Paint color = colors[index];
         double x =94;
 //        System.out.println("x :"+x);
         double y = 415;
@@ -359,26 +364,29 @@ public class GameScreenController extends Application{
         pillar2 = new Rectangle();
         rootAnchorPane.getChildren().add(pillar2);
         rootAnchorPane.getChildren().add(pillar1);
-        pillar1.setFill(color);
+        pillar1.setFill(old);
         pillar1.setX(x);
         pillar1.setY(y);
         pillar1.setHeight(ht);
         pillar1.setWidth(wt);
         pillar2.setFill(color);
 
-        Random random = new Random();
-        double offset = x + 10 + 100*random.nextDouble();//ensure ths is withing bounds later
+
+        double offset = x + 15 + 100*random.nextDouble();//ensure ths is withing bounds later
 //        System.out.println(offset);
         pillar2.setX(x+offset);
         pillar2.setY(y);
-        pillar2.setHeight(ht);
+        pillar2.setHeight(0);
         double width = 25 + 65*random.nextDouble();
-        pillar2.setWidth(width);
-        ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.3), pillar2);
-        scaleTransition.setFromY(0);
-        scaleTransition.setToY(1);
 
-        scaleTransition.play();
+
+        pillar2.setWidth(width);
+        // Use Timeline to animate the height of the pillar
+        Duration duration = Duration.seconds(0.75);
+        KeyValue keyValue = new KeyValue(pillar2.heightProperty(), ht, Interpolator.EASE_BOTH);
+        KeyFrame keyFrame = new KeyFrame(duration, keyValue);
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.play();
 
 
 
