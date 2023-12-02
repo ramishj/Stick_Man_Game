@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="467.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.firstjavafx.GameScreenController">
+   <children>
+      <ImageView fitHeight="592.0" fitWidth="473.0" layoutX="-2.0" layoutY="-3.0" pickOnBounds="true">
+         <image>
+            <Image url="@20008380_6221846.jpg" />
+         </image>
+      </ImageView>
+      <Rectangle fx:id="pillar1" arcHeight="5.0" arcWidth="5.0" fill="#ffbc1f" height="172.0" stroke="#e4bf06" strokeType="INSIDE" width="71.0" x="94.0" y="417.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="414.0" />
+      <Rectangle fx:id="pillar2" arcHeight="5.0" arcWidth="5.0" fill="#ffbc1f" height="172.0" stroke="#e4bf06" strokeType="INSIDE" width="71.0" x="300.0" y="414.0" />
+      <Rectangle fx:id="stickR" arcHeight="5.0" arcWidth="5.0" stroke="BLACK" strokeType="INSIDE" width="2.0" x="155.0" y="413.0" />
+   </children>
+</AnchorPane>
