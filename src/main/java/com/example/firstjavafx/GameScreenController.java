@@ -54,6 +54,8 @@ public class GameScreenController extends Application{
     Stick stick;
     @FXML
     private Text Score;
+    @FXML
+    private Text Diamonds;
     private boolean stick_grown_once = false;
     private boolean isMoving = false;
     Scene scene;
@@ -221,7 +223,21 @@ private boolean isFlipped= false;
 
         }
     }
+    private void checkDiamondCollection() {
+        Bounds playerBounds = imageView.getBoundsInParent();
 
+        Bounds diamondBounds = diamondView.getBoundsInParent();
+
+        if (playerBounds.intersects(diamondBounds)) {
+            System.out.println("LOL");
+            gems++; // Increment the score
+            Diamonds.setText(Integer.toString(gems));
+            rootAnchorPane.getChildren().remove(diamondView); // Remove the collected diamond
+            diamondView = null;
+
+            // You can also play a sound effect or perform any other action when a diamond is collected.
+        }
+    }
     @FXML
     private void growPillar() {
         // Add logic to grow the pillar here
@@ -258,6 +274,10 @@ private boolean isFlipped= false;
                     imageView.setTranslateX(positionX);
 //                    imageView.setTranslateX(-100);
                     positionX += STEP_SIZE;
+                    if(diamondView!=null) {
+                        checkDiamondCollection();
+                        System.out.println("gems "+gems);
+                    }
 
                 }
         ));
@@ -489,6 +509,7 @@ private boolean isFlipped= false;
 
 //        System.out.println("hdflk");
             Score = (Text) scene.lookup("#Score");
+            Diamonds = (Text) scene.lookup("#Diamonds");
 
         stage.setTitle("Game Screen!");
         stage.setMinWidth(467); // Set minimum width
