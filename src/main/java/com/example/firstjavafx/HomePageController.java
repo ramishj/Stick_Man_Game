@@ -19,6 +19,11 @@ public class HomePageController {
     @FXML
     private AnchorPane stackPane;
 
+
+
+
+
+    public static int HighScore=0;
     @FXML
     private ImageView backgroundImage;
 

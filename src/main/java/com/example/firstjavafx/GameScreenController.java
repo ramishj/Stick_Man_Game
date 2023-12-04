@@ -242,7 +242,17 @@ private boolean isFlipped= false;
     private void growPillar() {
         // Add logic to grow the pillar here
     }
+    private void switchToGameOverScreen() throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
+        Parent root = fxmlLoader.load();
+        GameOverController gameOverController = fxmlLoader.getController();
 
+        Stage stage = (Stage) rootAnchorPane.getScene().getWindow(); // Get the current stage
+        stage.setScene(new Scene(root, 800, 600));
+        stage.show();
+
+        gameOverController.start(stage,cnt*3);
+    }
     private void jump() {
         isJumping = true;
 
@@ -319,7 +329,13 @@ private boolean isFlipped= false;
                 rotateTransition.play();
                 fall_stick_timeline.setOnFinished(event1 -> {
 
-                System.exit(0);
+                    try {
+                        switchToGameOverScreen();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 });
             }
             rootAnchorPane.getChildren().remove(tempS);
