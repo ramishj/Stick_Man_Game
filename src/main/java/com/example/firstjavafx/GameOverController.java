@@ -74,7 +74,9 @@ public class GameOverController extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    public void Exit(){
+        System.exit(0);
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
 

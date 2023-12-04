@@ -20,7 +20,7 @@
             <Font name="AppleMyungjo Regular" size="23.0" />
          </font>
       </Button>
-      <Button fx:id="Exit" layoutX="114.0" layoutY="323.0" mnemonicParsing="false"  prefHeight="85.0" prefWidth="243.0" style="-fx-background-color: #ee3c3c; -fx-background-radius: 2220px;" text="Exit" textFill="WHITE">
+      <Button fx:id="Exit" layoutX="114.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#Exit" prefHeight="85.0" prefWidth="243.0" style="-fx-background-color: #ee3c3c; -fx-background-radius: 2220px;" text="Exit" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="23.0" />
          </font>
