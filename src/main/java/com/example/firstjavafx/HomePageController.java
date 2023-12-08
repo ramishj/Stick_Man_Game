@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Stack;
 
+
 public class HomePageController {
     @FXML
     private AnchorPane stackPane;

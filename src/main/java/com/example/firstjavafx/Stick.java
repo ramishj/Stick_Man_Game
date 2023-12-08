@@ -1,14 +1,16 @@
 package com.example.firstjavafx;
 
-public class Stick extends GameObjects{
+import javafx.scene.shape.Rectangle;
+
+public class Stick extends Rectangle {
 //    private int x;
 //    private int y;
 //    private int width;
 //    private int height;
 ////    private int speed;
 
-    public Stick(int x, int y, int width, int height, int speed) {
-        super(x, y, width, height, speed);
+    public Stick() {
+
 
 
     }

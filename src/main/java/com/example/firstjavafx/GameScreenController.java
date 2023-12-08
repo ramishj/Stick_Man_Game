@@ -8,9 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -62,7 +65,7 @@ public class GameScreenController extends Application{
     Diamonds diamond;
     History history = new History();
     Image[] frames;
-
+    private int timesRevived=0;
     @FXML
     private Rectangle stickR;
     @FXML
@@ -269,6 +272,86 @@ private boolean isFlipped= false;
 
         jumpUp.play();
     }
+    private Pane createReviveBox() {
+        AnchorPane reviveBox = new AnchorPane();
+        Pane ButtonPane = new Pane(); // Change this to StackPane
+        Rectangle box = new Rectangle();
+        box.setWidth(100);  // Set your desired width
+        box.setHeight(100); // Set your desired height
+        box.setFill(Color.rgb(225, 221, 209)); // Set RGB values for the fill color
+
+        Button reviveButton = new Button("Revive");
+        reviveButton.setOnAction(event2 -> {
+           //Reset the game and just retrieve the current game and deduct gems equal to 2^timesRevived
+            if(isFlipped){
+                isFlipped = !isFlipped;
+                ScaleTransition flip = new ScaleTransition(Duration.millis(100), imageView);
+                flip.setToY(flip_i); // Flips vertically
+                flip_i=-flip_i;
+
+                TranslateTransition push = new TranslateTransition(Duration.millis(50), imageView);
+                push.setByY((flip_i)*imageView.getFitHeight());
+
+                push.play();
+                flip.play();
+
+
+            }
+            gems-=Math.pow(2,timesRevived);
+            timesRevived++;
+            Diamonds.setText(Integer.toString(gems));
+            rootAnchorPane.getChildren().remove(reviveBox);
+            lost = false;
+            stickR.setHeight(0);
+            stickR.setY(415);
+            stickR.getTransforms().clear();
+            stickR.setWidth(2);
+            stickR.setX(94);
+            imageView.setX(105);
+            imageView.setY(375);
+            imageView.setTranslateX(0);
+            imageView.setTranslateY(0);
+            imageView.setImage(frames[0]);
+            rootAnchorPane.getChildren().remove(diamondView);
+            diamondView = null;
+            //Set roation of image view to 0
+           imageView.setRotate(0);
+            //Remove the stick and all pillars
+            rootAnchorPane.getChildren().remove(stickR);
+            rootAnchorPane.getChildren().remove(pillar1);
+            rootAnchorPane.getChildren().remove(pillar2);
+
+
+            rootAnchorPane.getChildren().remove(tempS);
+            rootAnchorPane.getChildren().remove(tempP);
+
+
+
+            //Create new pillars
+            createNewPillar();
+
+            updateGame();
+
+        });
+        ButtonPane.getChildren().add(reviveButton);
+
+        reviveBox.getChildren().addAll(box, ButtonPane);
+
+        // Set the Pane at the center of the rootAnchorPane
+        double centerX = (rootAnchorPane.getWidth() - box.getWidth()) / 2;
+        double centerY = (rootAnchorPane.getHeight() - box.getHeight()) / 2;
+
+        reviveBox.setLayoutX(centerX);
+        reviveBox.setLayoutY(centerY);
+
+        double centerBX = (reviveBox.getWidth() - reviveButton.getWidth()) / 2;
+        double centerBY = (reviveBox.getHeight() - reviveButton.getHeight()) / 2;
+        ButtonPane.setLayoutX(centerBX);
+        ButtonPane.setLayoutY(centerBY);
+
+
+        return reviveBox;
+    }
     private void moveCharacter2(double distance) {
 //        System.out.println("flsjdflsdjflsjf");
         positionX = imageView.getTranslateX();
@@ -284,6 +367,16 @@ private boolean isFlipped= false;
                     imageView.setTranslateX(positionX);
 //                    imageView.setTranslateX(-100);
                     positionX += STEP_SIZE;
+                    //Check intersection with pillar2 and lost if intersect
+                    Bounds playerBounds = imageView.getBoundsInParent();
+
+                    Bounds pillarBounds = pillar2.getBoundsInParent();
+
+                    if (playerBounds.intersects(pillarBounds) && isFlipped) {
+                        System.out.println("LOL");
+                        lost = true;
+                    }
+
                     if(diamondView!=null) {
                         checkDiamondCollection();
                         System.out.println("gems "+gems);
@@ -330,7 +423,16 @@ private boolean isFlipped= false;
                 fall_stick_timeline.setOnFinished(event1 -> {
 
                     try {
-                        switchToGameOverScreen();
+                        System.out.println("Gems No. on end" + gems);
+                        if(gems>=Math.pow(2,timesRevived)){
+                            Pane reviveBox = createReviveBox();
+                            rootAnchorPane.getChildren().add(reviveBox);
+
+
+                        }
+                        else {
+                            switchToGameOverScreen();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (Exception e) {
@@ -422,8 +524,8 @@ private boolean isFlipped= false;
         diamondView.setFitHeight(25); // Set your desired height
 
         //select rand x and set diamond x to between randomly between two pillars
-        isDiamond = random.nextInt(10);
-        if(isDiamond>3){
+        isDiamond = random.nextInt(100);
+        if(isDiamond>30){
             rootAnchorPane.getChildren().add(diamondView);
             System.out.println("New Diamond");
             double abc =random.nextDouble();
