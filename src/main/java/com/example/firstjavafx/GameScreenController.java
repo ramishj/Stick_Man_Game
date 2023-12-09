@@ -273,14 +273,65 @@ private boolean isFlipped= false;
         jumpUp.play();
     }
     private Pane createReviveBox() {
-        AnchorPane reviveBox = new AnchorPane();
-        Pane ButtonPane = new Pane(); // Change this to StackPane
-        Rectangle box = new Rectangle();
-        box.setWidth(100);  // Set your desired width
-        box.setHeight(100); // Set your desired height
-        box.setFill(Color.rgb(225, 221, 209)); // Set RGB values for the fill color
+        //Open a new window with a button to revive withReviveBox.fxml
+        Pane reviveBox = new Pane();
+        reviveBox.setPrefHeight(200);
+        reviveBox.setPrefWidth(200);
+        //Set Layout of the Box to centre of screen by calculating it
+        reviveBox.setLayoutX((rootAnchorPane.getWidth()-reviveBox.getPrefWidth())/2);
+        reviveBox.setLayoutY((rootAnchorPane.getHeight()-reviveBox.getPrefHeight())/2);
+        //Style the Box
 
+        reviveBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 10px;");
         Button reviveButton = new Button("Revive");
+        //Centre the button in the box by calculating it
+        reviveButton.setLayoutX(50);
+        reviveButton.setLayoutY(25);
+
+        reviveBox.getChildren().add(reviveButton);
+        //Style the Box centre it and centre revive button within it
+        reviveButton.setStyle("-fx-background-color: #de4545; -fx-border-color: #ffffff; -fx-border-width: 2px; -fx-border-radius: 10px;");
+        //Bold the text
+        reviveButton.setStyle("-fx-font-weight: bold");
+
+        //Centre the buttons
+        reviveButton.setPrefHeight(50);
+        reviveButton.setPrefWidth(100);
+        reviveButton.setAlignment(Pos.CENTER);
+        //Also Create a Cancel Button in Revive Box and trigger switchToGameOverScreen() on click
+        Button cancelButton = new Button("Cancel");
+        //Centre the button in the box by calculating it
+        cancelButton.setLayoutX(50);
+        cancelButton.setLayoutY(125);
+
+        reviveBox.getChildren().add(cancelButton);
+        //Style the Box centre it and centre revive button within it
+        cancelButton.setStyle("-fx-background-color: #de4545; -fx-border-color: #ffffff; -fx-border-width: 2px; -fx-border-radius: 10px;");
+        //Bold the text
+        cancelButton.setStyle("-fx-font-weight: bold");
+
+        //Centre the buttons
+        cancelButton.setPrefHeight(50);
+        cancelButton.setPrefWidth(100);
+        cancelButton.setAlignment(Pos.CENTER);
+        //Set on click listener for cancel button
+
+
+
+
+
+
+
+
+        cancelButton.setOnAction(event1 -> {
+            try {
+                switchToGameOverScreen();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+
         reviveButton.setOnAction(event2 -> {
            //Reset the game and just retrieve the current game and deduct gems equal to 2^timesRevived
             if(isFlipped){
@@ -307,7 +358,7 @@ private boolean isFlipped= false;
             stickR.getTransforms().clear();
             stickR.setWidth(2);
             stickR.setX(94);
-            imageView.setX(105);
+            imageView.setX(100);
             imageView.setY(375);
             imageView.setTranslateX(0);
             imageView.setTranslateY(0);
@@ -333,21 +384,6 @@ private boolean isFlipped= false;
             updateGame();
 
         });
-        ButtonPane.getChildren().add(reviveButton);
-
-        reviveBox.getChildren().addAll(box, ButtonPane);
-
-        // Set the Pane at the center of the rootAnchorPane
-        double centerX = (rootAnchorPane.getWidth() - box.getWidth()) / 2;
-        double centerY = (rootAnchorPane.getHeight() - box.getHeight()) / 2;
-
-        reviveBox.setLayoutX(centerX);
-        reviveBox.setLayoutY(centerY);
-
-        double centerBX = (reviveBox.getWidth() - reviveButton.getWidth()) / 2;
-        double centerBY = (reviveBox.getHeight() - reviveButton.getHeight()) / 2;
-        ButtonPane.setLayoutX(centerBX);
-        ButtonPane.setLayoutY(centerBY);
 
 
         return reviveBox;
@@ -427,6 +463,7 @@ private boolean isFlipped= false;
                         if(gems>=Math.pow(2,timesRevived)){
                             Pane reviveBox = createReviveBox();
                             rootAnchorPane.getChildren().add(reviveBox);
+
 
 
                         }
@@ -619,7 +656,7 @@ private boolean isFlipped= false;
         imageView.setFitHeight(40); // Set your desired height
         rootAnchorPane.getChildren().add(imageView);
 
-        imageView.setX(105);
+        imageView.setX(100);
         imageView.setY(375);
 
         scene.setOnKeyPressed(this::onKeyPressed);
