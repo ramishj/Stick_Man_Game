@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -30,15 +31,22 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.security.Key;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 
 public class GameScreenController extends Application{
+
     //+++++++++++++++++++++++++++++++++++++++
+
     private double XofDiamond;
     private String test;
     private static final int NUM_FRAMES = 6; // Number of frames in the animation
@@ -61,6 +69,7 @@ public class GameScreenController extends Application{
     private Text Diamonds;
     private boolean stick_grown_once = false;
     private boolean isMoving = false;
+    private MediaView mediaView;
     Scene scene;
     Diamonds diamond;
     History history = new History();
@@ -178,6 +187,8 @@ private boolean isFlipped= false;
         }
     }
 
+
+
     private void onKeyReleased(KeyEvent cevent) {
 
         if (!stick_grown_once && cevent.getCode() == KeyCode.SPACE) {
@@ -233,6 +244,17 @@ private boolean isFlipped= false;
 
         if (playerBounds.intersects(diamondBounds)) {
             System.out.println("LOL");
+            Media sound = new Media(getClass().getResource("PointScore.mp3").toExternalForm());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+
+            // Create MediaView and bind it to MediaPlayer
+            MediaView mediaView = new MediaView(mediaPlayer);
+            mediaView.setMediaPlayer(mediaPlayer);
+
+            // Play music
+            mediaPlayer.setCycleCount(1);
+            mediaPlayer.setVolume(50);
+            mediaPlayer.play();
             gems++; // Increment the score
             Diamonds.setText(Integer.toString(gems));
             rootAnchorPane.getChildren().remove(diamondView); // Remove the collected diamond
@@ -253,13 +275,12 @@ private boolean isFlipped= false;
         Stage stage = (Stage) rootAnchorPane.getScene().getWindow(); // Get the current stage
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
+        mediaView.getMediaPlayer().stop();
 
         gameOverController.start(stage,cnt*3);
     }
     private void jump() {
         isJumping = true;
-
-
         TranslateTransition jumpUp = new TranslateTransition(Duration.millis(200), imageView);
         jumpUp.setByY(-50);
         jumpUp.setCycleCount(2);
@@ -622,6 +643,23 @@ private boolean isFlipped= false;
             frames[i] = new Image(getClass().getResource(imagePath).toExternalForm());
         }
 
+        Media sound = new Media(getClass().getResource("BGMUSIC.mp3").toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+
+        // Create MediaView and bind it to MediaPlayer
+         mediaView = new MediaView(mediaPlayer);
+        mediaView.setMediaPlayer(mediaPlayer);
+
+        // Play music
+        mediaPlayer.setVolume(0.2);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
+
+        // Add MediaView to your layout
+
+
+
+        // Update with your file path
 
 //        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GameScreen.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("GameScreen.fxml"));
@@ -634,7 +672,7 @@ private boolean isFlipped= false;
 //        System.out.println("at start: "+pillar2.getLayoutX());
         pillar1 = (Rectangle)scene.lookup("#pillar1");
         rootAnchorPane = (AnchorPane)scene.lookup("#rootAnchorPane");
-
+        rootAnchorPane.getChildren().add(mediaView);
         imageView = new ImageView(frames[0]);
         imageView.setFitWidth(40); // Set your desired width
         imageView.setFitHeight(40); // Set your desired height
