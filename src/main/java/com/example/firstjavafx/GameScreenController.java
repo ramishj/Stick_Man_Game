@@ -272,56 +272,12 @@ private boolean isFlipped= false;
 
         jumpUp.play();
     }
-    private Pane createReviveBox() {
-        //Open a new window with a button to revive withReviveBox.fxml
-        Pane reviveBox = new Pane();
-        reviveBox.setPrefHeight(200);
-        reviveBox.setPrefWidth(200);
-        //Set Layout of the Box to centre of screen by calculating it
-        reviveBox.setLayoutX((rootAnchorPane.getWidth()-reviveBox.getPrefWidth())/2);
-        reviveBox.setLayoutY((rootAnchorPane.getHeight()-reviveBox.getPrefHeight())/2);
-        //Style the Box
-
-        reviveBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 10px;");
-        Button reviveButton = new Button("Revive");
-        //Centre the button in the box by calculating it
-        reviveButton.setLayoutX(50);
-        reviveButton.setLayoutY(25);
-
-        reviveBox.getChildren().add(reviveButton);
-        //Style the Box centre it and centre revive button within it
-        reviveButton.setStyle("-fx-background-color: #de4545; -fx-border-color: #ffffff; -fx-border-width: 2px; -fx-border-radius: 10px;");
-        //Bold the text
-        reviveButton.setStyle("-fx-font-weight: bold");
-
-        //Centre the buttons
-        reviveButton.setPrefHeight(50);
-        reviveButton.setPrefWidth(100);
-        reviveButton.setAlignment(Pos.CENTER);
-        //Also Create a Cancel Button in Revive Box and trigger switchToGameOverScreen() on click
-        Button cancelButton = new Button("Cancel");
-        //Centre the button in the box by calculating it
-        cancelButton.setLayoutX(50);
-        cancelButton.setLayoutY(125);
-
-        reviveBox.getChildren().add(cancelButton);
-        //Style the Box centre it and centre revive button within it
-        cancelButton.setStyle("-fx-background-color: #de4545; -fx-border-color: #ffffff; -fx-border-width: 2px; -fx-border-radius: 10px;");
-        //Bold the text
-        cancelButton.setStyle("-fx-font-weight: bold");
-
-        //Centre the buttons
-        cancelButton.setPrefHeight(50);
-        cancelButton.setPrefWidth(100);
-        cancelButton.setAlignment(Pos.CENTER);
-        //Set on click listener for cancel button
-
-
-
-
-
-
-
+    public void startReviveBox(Stage stage,int Score) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("ReviveBox.fxml"));
+        stage.setScene(new Scene(root, 473  , 592));
+        //Lookup for revive Button
+        Button reviveButton = (Button) root.lookup("#reviveButton");
+        Button cancelButton = (Button) root.lookup("#cancelButton");
 
         cancelButton.setOnAction(event1 -> {
             try {
@@ -330,28 +286,33 @@ private boolean isFlipped= false;
                 e.printStackTrace();
             }
         });
-
-
         reviveButton.setOnAction(event2 -> {
-           //Reset the game and just retrieve the current game and deduct gems equal to 2^timesRevived
+            //Reset the game and just retrieve the current game and deduct gems equal to 2^timesRevived
+
             if(isFlipped){
-                isFlipped = !isFlipped;
+                isFlipped = false;
+                //Remove character and add it again to the rootAnchorPane and fix its position
+                rootAnchorPane.getChildren().remove(imageView);
+                rootAnchorPane.getChildren().add(imageView);
+                imageView.setX(100);
+                imageView.setY(375);
+                imageView.setTranslateX(0);
+                imageView.setTranslateY(0);
                 ScaleTransition flip = new ScaleTransition(Duration.millis(100), imageView);
                 flip.setToY(flip_i); // Flips vertically
                 flip_i=-flip_i;
-
-                TranslateTransition push = new TranslateTransition(Duration.millis(50), imageView);
-                push.setByY((flip_i)*imageView.getFitHeight());
-
-                push.play();
                 flip.play();
 
 
+
+
             }
+
+
             gems-=Math.pow(2,timesRevived);
             timesRevived++;
             Diamonds.setText(Integer.toString(gems));
-            rootAnchorPane.getChildren().remove(reviveBox);
+
             lost = false;
             stickR.setHeight(0);
             stickR.setY(415);
@@ -362,11 +323,12 @@ private boolean isFlipped= false;
             imageView.setY(375);
             imageView.setTranslateX(0);
             imageView.setTranslateY(0);
+
             imageView.setImage(frames[0]);
             rootAnchorPane.getChildren().remove(diamondView);
             diamondView = null;
             //Set roation of image view to 0
-           imageView.setRotate(0);
+            imageView.setRotate(0);
             //Remove the stick and all pillars
             rootAnchorPane.getChildren().remove(stickR);
             rootAnchorPane.getChildren().remove(pillar1);
@@ -376,9 +338,21 @@ private boolean isFlipped= false;
             rootAnchorPane.getChildren().remove(tempS);
             rootAnchorPane.getChildren().remove(tempP);
 
+//switch scene to game screen
+            stage.setScene(scene);
+            stage.show();
+            //Create new stick
+            stickR = new Rectangle();
+            rootAnchorPane.getChildren().add(stickR);
+            stickR.setFill(Color.BLACK);
+            stickR.setX(94);
+            stickR.setY(415);
+            stickR.setHeight(0);
+            stickR.setWidth(2);
 
 
-            //Create new pillars
+
+
             createNewPillar();
 
             updateGame();
@@ -386,7 +360,17 @@ private boolean isFlipped= false;
         });
 
 
-        return reviveBox;
+
+        stage.show();
+    }
+    private void createReviveBox() throws IOException {
+        //Open a new window with a button to revive with ReviveBox.fxml
+        startReviveBox((Stage) rootAnchorPane.getScene().getWindow(),timesRevived);
+
+
+
+
+        return ;
     }
     private void moveCharacter2(double distance) {
 //        System.out.println("flsjdflsdjflsjf");
@@ -461,8 +445,8 @@ private boolean isFlipped= false;
                     try {
                         System.out.println("Gems No. on end" + gems);
                         if(gems>=Math.pow(2,timesRevived)){
-                            Pane reviveBox = createReviveBox();
-                            rootAnchorPane.getChildren().add(reviveBox);
+                      createReviveBox();
+
 
 
 
