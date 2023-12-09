@@ -294,7 +294,7 @@ private boolean isFlipped= false;
                 //Remove character and add it again to the rootAnchorPane and fix its position
                 rootAnchorPane.getChildren().remove(imageView);
                 rootAnchorPane.getChildren().add(imageView);
-                imageView.setX(100);
+                imageView.setLayoutX(0);
                 imageView.setY(375);
                 imageView.setTranslateX(0);
                 imageView.setTranslateY(0);
