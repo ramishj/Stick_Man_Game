@@ -29,6 +29,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -267,18 +268,28 @@ private boolean isFlipped= false;
     private void growPillar() {
         // Add logic to grow the pillar here
     }
-    private void switchToGameOverScreen() throws Exception {
+    private Stage getCurrentStage() {
+        // If the controller is associated with a scene, get the window and cast it to a stage
+        Window window = rootAnchorPane.getScene().getWindow();
+        if (window instanceof Stage) {
+            return (Stage) window;
+        } else {
+            // Handle the case where the window is not a stage (if needed)
+            return null;
+        }
+    }
+    private void switchToGameOverScreen(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
         Parent root = fxmlLoader.load();
         GameOverController gameOverController = fxmlLoader.getController();
 
-        Stage stage = (Stage) rootAnchorPane.getScene().getWindow(); // Get the current stage
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
         mediaView.getMediaPlayer().stop();
 
-        gameOverController.start(stage,cnt*3);
+        gameOverController.start(stage, cnt * 3);
     }
+
     private void jump() {
         isJumping = true;
         TranslateTransition jumpUp = new TranslateTransition(Duration.millis(200), imageView);
@@ -302,7 +313,7 @@ private boolean isFlipped= false;
 
         cancelButton.setOnAction(event1 -> {
             try {
-                switchToGameOverScreen();
+                switchToGameOverScreen(stage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -473,7 +484,7 @@ private boolean isFlipped= false;
 
                         }
                         else {
-                            switchToGameOverScreen();
+                            switchToGameOverScreen(getCurrentStage());
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
